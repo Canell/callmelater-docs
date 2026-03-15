@@ -299,6 +299,7 @@ Returns the full action detail including delivery history and approval events.
 | `gate` | object | Approval gate config (approval mode) |
 | `delivery_attempts` | array | HTTP delivery attempt log (webhook mode) |
 | `reminder_events` | array | Approval event timeline (approval mode) |
+| `recipients` | array | Recipient list with response details (approval mode) |
 | `dedup_keys` | array | Dedup keys assigned to this action |
 | `is_recurring` | boolean | Whether this action repeats |
 | `recurrence` | object | Recurrence config (when recurring) |
@@ -306,6 +307,72 @@ Returns the full action detail including delivery history and approval events.
 | `last_executed_at` | string | Timestamp of last execution (when recurring) |
 | `created_at` | string | Creation timestamp |
 | `updated_at` | string | Last update timestamp |
+
+### Reminder Events Object
+
+Each entry in the `reminder_events` array represents a lifecycle event for the approval.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | string | Event UUID |
+| `event_type` | string | `sent`, `confirmed`, `declined`, `snoozed`, `escalated`, or `expired` |
+| `actor_email` | string | Email of the person who triggered the event (null for system events) |
+| `notes` | string | Optional comment left by the responder |
+| `created_at` | string | Event timestamp (ISO 8601) |
+
+### Recipients Object
+
+Each entry in the `recipients` array represents one recipient and their response.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | string | Recipient UUID |
+| `email` | string | Recipient email or phone number |
+| `status` | string | `pending`, `confirmed`, `declined`, or `snoozed` |
+| `responded_at` | string | When the recipient responded (ISO 8601, null if pending) |
+| `response_comment` | string | Optional comment left by the recipient (max 500 chars, null if none) |
+| `display_name` | string | Display name (from contact or auto-detected) |
+
+### Example: Approval Response Detail
+
+```json
+{
+  "data": {
+    "id": "01234567-89ab-cdef-0123-456789abcdef",
+    "name": "Validate legal answer",
+    "mode": "approval",
+    "status": "executed",
+    "scheduled_for": "2026-03-15T09:00:00Z",
+    "executed_at": "2026-03-15T09:12:34Z",
+    "recipients": [
+      {
+        "id": "recipient-uuid",
+        "email": "notaire@example.com",
+        "status": "confirmed",
+        "responded_at": "2026-03-15T09:12:34Z",
+        "response_comment": "Verified. This is correct per Article 1134 of the Civil Code.",
+        "display_name": "Me Dupont"
+      }
+    ],
+    "reminder_events": [
+      {
+        "id": "event-uuid-1",
+        "event_type": "sent",
+        "actor_email": null,
+        "notes": null,
+        "created_at": "2026-03-15T09:00:00Z"
+      },
+      {
+        "id": "event-uuid-2",
+        "event_type": "confirmed",
+        "actor_email": "notaire@example.com",
+        "notes": "Verified. This is correct per Article 1134 of the Civil Code.",
+        "created_at": "2026-03-15T09:12:34Z"
+      }
+    ]
+  }
+}
+```
 
 ---
 

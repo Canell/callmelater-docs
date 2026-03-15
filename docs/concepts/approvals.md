@@ -63,6 +63,20 @@ Use `first_response` for general notifications where one confirmation is enough.
 | **Decline** | Marks the action as `failed` and sends response details to your callback URL |
 | **Snooze** | Reschedules the reminder to be sent again after a configurable period |
 
+## Response comments
+
+Recipients can add an optional comment (up to 500 characters) when they respond. Comments are available on all response types: confirm, decline, and snooze.
+
+This is useful when recipients need to explain their decision, add context, or provide feedback — for example, a reviewer approving with conditions, or an expert adding a note to their validation.
+
+Comments are stored on the recipient record and included in:
+
+- The **callback webhook** payload sent to your system
+- The **action detail** API response (`recipients[].response_comment` and `reminder_events[].notes`)
+- The **dashboard** event timeline
+
+No additional configuration is needed — the comment field is always available to recipients on the response page.
+
 ## Snooze
 
 Control how many times recipients can snooze with `max_snoozes`:

@@ -35,7 +35,11 @@ At least one scheduling field is required.
 
 **Presets:** `tomorrow`, `next_week`, `next_monday` through `next_sunday`, `1h`, `2h`, `4h`, `1d`, `3d`, `1w`
 
-**Wait format:** Number followed by a unit -- `m` (minutes), `h` (hours), `d` (days), `w` (weeks). Examples: `30m`, `2h`, `14d`, `1w`.
+**Wait format:** Number followed by a unit -- `s` (seconds), `m` (minutes), `h` (hours), `d` (days), `w` (weeks). Examples: `30s`, `5m`, `2h`, `14d`, `1w`.
+
+:::tip Sub-minute scheduling
+Delays under 5 minutes are dispatched with second-level precision via a Redis queue, bypassing the minute-based scheduler. This requires a Redis queue connection and a worker processing the `fast` queue.
+:::
 
 ### Webhook Mode Fields
 

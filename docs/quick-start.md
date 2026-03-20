@@ -61,7 +61,7 @@ curl https://callmelater.io/api/v1/actions \
   -d '{
     "mode": "approval",
     "name": "Approve deployment",
-    "schedule": { "wait": "1s" },
+    "schedule": { "wait": "1m" },
     "gate": {
       "message": "Ready to deploy v2.1 to production?",
       "recipients": ["ops@example.com"],

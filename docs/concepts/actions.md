@@ -89,6 +89,7 @@ A duration from now using `schedule.wait`:
 
 | Format | Meaning | Example |
 |--------|---------|---------|
+| `Ns` | N seconds | `30s` = 30 seconds |
 | `Nm` | N minutes | `5m` = 5 minutes |
 | `Nh` | N hours | `2h` = 2 hours |
 | `Nd` | N days | `1d` = 1 day |

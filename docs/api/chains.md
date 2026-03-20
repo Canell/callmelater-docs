@@ -89,7 +89,7 @@ Example condition: `{{steps.1.status}} == 'confirmed'`
 ### Example
 
 ```bash
-curl -X POST https://api.callmelater.io/v1/chains \
+curl -X POST https://callmelater.io/api/v1/chains \
   -H "Authorization: Bearer sk_live_..." \
   -H "Content-Type: application/json" \
   -d '{
@@ -146,7 +146,7 @@ GET /chains
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `status` | string | -- | Filter by status: `pending`, `running`, `completed`, `failed`, `cancelled` |
-| `per_page` | integer | 15 | Results per page (max 100) |
+| `per_page` | integer | 20 | Results per page (max 100) |
 | `page` | integer | 1 | Page number |
 
 ### Response

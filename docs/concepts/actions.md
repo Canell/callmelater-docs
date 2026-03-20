@@ -230,16 +230,9 @@ Keys are scoped per account, up to 255 characters, and case-sensitive.
 
 **Behavior when a matching key already exists:**
 
-| Existing action state | Behavior |
-|-----------------------|----------|
-| `scheduled` | Returns existing action |
-| `resolved` | Returns existing action |
-| `awaiting_response` | Returns existing action |
-| `executed` | Creates new action |
-| `failed` | Creates new action |
-| `cancelled` | Creates new action |
+If an action with the same idempotency key already exists (in any status), the request is rejected with a `422` validation error. Idempotency keys are permanent and cannot be reused, even after the original action reaches a terminal state.
 
-Non-terminal states return the existing action to prevent duplicates. Terminal states allow key reuse since the original action is already complete.
+To schedule a new action that replaces an existing one, use [dedup keys](#dedup-keys) with `coordination.on_create: "replace_existing"` instead.
 
 ## Dedup keys
 
@@ -249,7 +242,7 @@ Dedup keys group related actions together and control how they interact. Unlike 
 {
   "dedup_keys": ["deploy:api-service"],
   "coordination": {
-    "on_create": "cancel_and_replace"
+    "on_create": "replace_existing"
   },
   "schedule": { "wait": "1h" },
   "request": { "url": "https://ci.example.com/deploy" }
@@ -263,7 +256,7 @@ Controls what happens when you create a new action with the same dedup key as an
 | Behavior | Description |
 |----------|-------------|
 | `skip_if_exists` | Return the existing action instead of creating a new one (response includes `meta.skipped: true`) |
-| `cancel_and_replace` | Cancel all existing non-terminal actions with matching keys, then create the new action |
+| `replace_existing` | Cancel all existing non-terminal actions with matching keys, then create the new action |
 
 ### `on_execute` behaviors
 

@@ -8,7 +8,7 @@ All API requests require authentication using a Bearer token.
 
 ## Getting an API Token
 
-1. Log in to your [CallMeLater dashboard](https://app.callmelater.io)
+1. Log in to your [CallMeLater dashboard](https://callmelater.io)
 2. Navigate to **Settings** -> **API Tokens**
 3. Click **Create Token**
 4. Give it a descriptive name and select the required scopes
@@ -21,7 +21,7 @@ All tokens use the `sk_live_` prefix.
 Include the token in the `Authorization` header of every request:
 
 ```bash
-curl https://api.callmelater.io/v1/actions \
+curl https://callmelater.io/api/v1/actions \
   -H "Authorization: Bearer sk_live_your_token_here" \
   -H "Content-Type: application/json"
 ```

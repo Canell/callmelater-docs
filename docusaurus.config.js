@@ -109,7 +109,7 @@ const config = {
             position: 'right',
           },
           {
-            href: 'https://app.callmelater.io',
+            href: 'https://callmelater.io',
             label: 'Dashboard',
             position: 'right',
           },
@@ -144,7 +144,7 @@ const config = {
               },
               {
                 label: 'Dashboard',
-                href: 'https://app.callmelater.io',
+                href: 'https://callmelater.io',
               },
             ],
           },

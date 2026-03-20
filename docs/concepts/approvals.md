@@ -117,14 +117,16 @@ If nobody responds within a time window, CallMeLater can automatically notify es
   "gate": {
     "message": "Approve the production deployment",
     "recipients": ["team@example.com"],
-    "escalation_contacts": ["manager@example.com"],
-    "escalation_after_hours": 4
+    "escalation": {
+      "contacts": ["manager@example.com"],
+      "after_hours": 4
+    }
   }
 }
 ```
 
-- `escalation_contacts` -- array of email addresses or phone numbers to notify if no response is received
-- `escalation_after_hours` -- hours to wait before escalating (minimum 0.5)
+- `escalation.contacts` -- array of email addresses or phone numbers to notify if no response is received
+- `escalation.after_hours` -- hours to wait before escalating (minimum 0.5)
 - If a contact has no prefix (like `channel:`), email is assumed automatically
 
 Escalation is about getting human attention when the original recipients are unresponsive. It is separate from retries, which handle technical delivery failures.

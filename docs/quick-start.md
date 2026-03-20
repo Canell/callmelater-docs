@@ -13,7 +13,7 @@ Sign up at [callmelater.io](https://callmelater.io) and create an API token from
 ## 2. Schedule an HTTP call
 
 ```bash
-curl https://api.callmelater.io/v1/actions \
+curl https://callmelater.io/api/v1/actions \
   -H "Authorization: Bearer sk_live_..." \
   -H "Content-Type: application/json" \
   -d '{
@@ -41,21 +41,21 @@ This schedules a POST request to your URL in 5 minutes. The response includes th
 ## 3. Check the status
 
 ```bash
-curl https://api.callmelater.io/v1/actions/act_abc123 \
+curl https://callmelater.io/api/v1/actions/act_abc123 \
   -H "Authorization: Bearer sk_live_..."
 ```
 
 ## 4. Cancel it
 
 ```bash
-curl -X DELETE https://api.callmelater.io/v1/actions/act_abc123 \
+curl -X DELETE https://callmelater.io/api/v1/actions/act_abc123 \
   -H "Authorization: Bearer sk_live_..."
 ```
 
 ## 5. Send an approval reminder
 
 ```bash
-curl https://api.callmelater.io/v1/actions \
+curl https://callmelater.io/api/v1/actions \
   -H "Authorization: Bearer sk_live_..." \
   -H "Content-Type: application/json" \
   -d '{
@@ -65,7 +65,7 @@ curl https://api.callmelater.io/v1/actions \
     "gate": {
       "message": "Ready to deploy v2.1 to production?",
       "recipients": ["ops@example.com"],
-      "buttons": ["Approve", "Reject"]
+      "max_snoozes": 0
     },
     "callback_url": "https://your-app.com/webhook"
   }'

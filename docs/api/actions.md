@@ -57,12 +57,14 @@ At least one scheduling field is required.
 | `gate` | object | Yes | Approval gate configuration |
 | `gate.message` | string | Yes | Message displayed to recipients (max 5000 chars) |
 | `gate.recipients` | array | Yes | Email addresses, phone numbers (E.164), or contact IDs |
-| `gate.channels` | array | No | Delivery channels: `["email"]` (default) or `["email", "sms"]` |
+| `gate.channels` | array | No | Delivery channels: `email`, `sms`, `teams`, `slack`, `push`. Defaults to `["email"]`. |
 | `gate.confirmation_mode` | string | No | `first_response` (default) or `all_required` |
 | `gate.max_snoozes` | integer | No | Maximum snooze count, 0-10 (default: 5) |
 | `gate.timeout` | string | No | Response timeout, e.g. `4h`, `7d`, `1w` (default: `7d`) |
-| `gate.escalation_contacts` | array | No | Email addresses for escalation |
-| `gate.escalation_after_hours` | number | No | Hours before escalating (min: 0.5) |
+| `gate.on_timeout` | string | No | What happens when the timeout expires: `cancel` (default), `expire`, or `approve` |
+| `gate.escalation` | object | No | Escalation configuration |
+| `gate.escalation.contacts` | array | No | Email addresses or phone numbers for escalation |
+| `gate.escalation.after_hours` | number | No | Hours before escalating (min: 0.5) |
 | `gate.attachments` | array | No | File attachments for the approval message |
 | `request` | object | No | Optional HTTP request to execute after approval is granted |
 
@@ -90,7 +92,7 @@ Group related actions and control their behavior with dedup keys.
 |-------|------|----------|-------------|
 | `dedup_keys` | array | No | Grouping keys (max 10). Alphanumeric plus `_`, `:`, `.`, `-`. |
 | `coordination` | object | No | Dedup behavior configuration |
-| `coordination.on_create` | string | No | `skip_if_exists` or `cancel_and_replace` |
+| `coordination.on_create` | string | No | `skip_if_exists` or `replace_existing` |
 | `coordination.on_execute` | object | No | Execution-time conditions |
 | `coordination.on_execute.condition` | string | No | `skip_if_previous_pending`, `execute_if_previous_failed`, `execute_if_previous_succeeded`, `wait_for_previous` |
 | `coordination.on_execute.on_condition_not_met` | string | No | `cancel` (default), `reschedule`, `fail` |
@@ -100,7 +102,7 @@ Group related actions and control their behavior with dedup keys.
 **on_create behaviors:**
 
 - `skip_if_exists` -- Return the existing non-terminal action instead of creating a new one. The response uses status 200 with `meta.skipped: true`.
-- `cancel_and_replace` -- Cancel all existing non-terminal actions sharing the same dedup keys, then create the new action.
+- `replace_existing` -- Cancel all existing non-terminal actions sharing the same dedup keys, then create the new action.
 
 **on_execute conditions:**
 
@@ -112,7 +114,7 @@ Group related actions and control their behavior with dedup keys.
 ### Example: Webhook Mode
 
 ```bash
-curl -X POST https://api.callmelater.io/v1/actions \
+curl -X POST https://callmelater.io/api/v1/actions \
   -H "Authorization: Bearer sk_live_..." \
   -H "Content-Type: application/json" \
   -d '{
@@ -134,7 +136,7 @@ curl -X POST https://api.callmelater.io/v1/actions \
 ### Example: Approval Mode
 
 ```bash
-curl -X POST https://api.callmelater.io/v1/actions \
+curl -X POST https://callmelater.io/api/v1/actions \
   -H "Authorization: Bearer sk_live_..." \
   -H "Content-Type: application/json" \
   -d '{
@@ -156,7 +158,7 @@ curl -X POST https://api.callmelater.io/v1/actions \
 ### Example: Recurring Webhook
 
 ```bash
-curl -X POST https://api.callmelater.io/v1/actions \
+curl -X POST https://callmelater.io/api/v1/actions \
   -H "Authorization: Bearer sk_live_..." \
   -H "Content-Type: application/json" \
   -d '{
@@ -242,12 +244,12 @@ GET /actions
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `status` | string | -- | Filter by status: `scheduled`, `resolved`, `executing`, `awaiting_response`, `executed`, `failed`, `cancelled`, `expired` |
-| `mode` | string | -- | Filter by mode: `webhook` or `approval` |
+| `status` | string | -- | Filter by resolution status: `pending_resolution`, `resolved`, `executing`, `awaiting_response`, `executed`, `failed`, `cancelled`, `expired` |
+| `mode` | string | -- | Filter by mode: `immediate` or `gated` |
 | `search` | string | -- | Search in name and description |
-| `dedup_key` | string | -- | Filter by dedup key |
+| `coordination_key` | string | -- | Filter by coordination key |
 | `recurring` | string | -- | Filter by recurrence: `recurring` or `one-time` |
-| `per_page` | integer | 15 | Results per page (max 100) |
+| `per_page` | integer | 25 | Results per page (max 100) |
 | `page` | integer | 1 | Page number |
 
 ### Response

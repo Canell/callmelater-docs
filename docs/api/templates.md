@@ -64,7 +64,7 @@ Templates support `dedup_keys` with `{{placeholder}}` interpolation, allowing dy
 ### Example
 
 ```bash
-curl -X POST https://api.callmelater.io/v1/templates \
+curl -X POST https://callmelater.io/api/v1/templates \
   -H "Authorization: Bearer sk_live_..." \
   -H "Content-Type: application/json" \
   -d '{
@@ -100,7 +100,7 @@ curl -X POST https://api.callmelater.io/v1/templates \
     "id": "01abc123-...",
     "name": "Deploy {{service}}",
     "mode": "approval",
-    "trigger_url": "https://api.callmelater.io/t/clmt_abc123...",
+    "trigger_url": "https://callmelater.io/t/clmt_abc123...",
     "trigger_token": "clmt_abc123...",
     "placeholders": [
       { "name": "service", "required": true, "description": "Service name" },
@@ -221,7 +221,7 @@ Generates a new trigger token and URL. The previous URL immediately stops workin
   "message": "Trigger token regenerated successfully.",
   "data": {
     "trigger_token": "clmt_newtoken...",
-    "trigger_url": "https://api.callmelater.io/t/clmt_newtoken..."
+    "trigger_url": "https://callmelater.io/t/clmt_newtoken..."
   }
 }
 ```

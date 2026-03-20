@@ -19,8 +19,9 @@ Returns your current billing period usage and plan limits.
 ```json
 {
   "period": {
-    "start": "2026-02-01T00:00:00Z",
-    "end": "2026-02-28T23:59:59Z"
+    "year": 2026,
+    "month": 2,
+    "month_name": "February 2026"
   },
   "actions": {
     "used": 47,
@@ -30,14 +31,12 @@ Returns your current billing period usage and plan limits.
     "used": 12,
     "limit": 100
   },
-  "plan": {
-    "name": "Pro",
-    "features": [
-      "webhook_signatures",
-      "sms_reminders",
-      "team_features"
-    ]
-  }
+  "ai_suggestions": {
+    "used": 3,
+    "limit": 50,
+    "percentage": 6.0
+  },
+  "plan": "pro"
 }
 ```
 
